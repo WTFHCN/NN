@@ -1,3 +1,6 @@
+#ifndef ACTIVAT
+#define ACTIVAT
+
 #include <bits/stdc++.h>
 
 namespace HCN
@@ -58,3 +61,4 @@ namespace HCN
         }
     }
 }
+#endif

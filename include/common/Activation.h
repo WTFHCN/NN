@@ -1,7 +1,7 @@
 #ifndef ACTIVAT
 #define ACTIVAT
 
-#include <bits/stdc++.h>
+#include "base.h"
 
 namespace HCN
 {

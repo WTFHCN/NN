@@ -1,12 +1,25 @@
-#include <bits/stdc++.h>
-#include "BP.h"
+
+#include "base.h"
+#include "common/Activation.h"
+#include "network/BP.h"
 using namespace std;
 
 namespace HCN
 {
     namespace NetWork
     {
-        BP::BP(vector<int> input)
+        BPNet::BPNet(vector<int> input)
+        {
+
+            netCnt = input.size();
+            layCnt = input;
+            dx.resize(netCnt);
+            X.resize(netCnt);
+            W.resize(netCnt);
+            B.resize(netCnt);
+        }
+
+        void BPNet::build(vector<int> input)
         {
             netCnt = input.size();
             layCnt = input;
@@ -15,7 +28,7 @@ namespace HCN
             W.resize(netCnt);
             B.resize(netCnt);
         }
-        void BP::init()
+        void BPNet::init()
         {
 
             for (int i = 0; i < netCnt; i++)
@@ -24,9 +37,10 @@ namespace HCN
                     W[i] = Matrix<double>(layCnt[i], layCnt[i - 1], 2);
                 X[i] = Matrix<double>(layCnt[i], 1, 2);
                 dx[i] = Matrix<double>(layCnt[i], 1, 2);
+                B[i] = Matrix<double>(layCnt[i], 1, 2);
             }
         }
-        void BP::forwardPropagation(const Matrix<double> input)
+        void BPNet::forwardPropagation(const Matrix<double> input)
         {
 
             if (input.row != layCnt[0])
@@ -34,15 +48,21 @@ namespace HCN
                 cout << "输入维度不相同" << endl;
                 return;
             }
-            X[netCnt - 1] = input;
+            X[0] = input;
+
             for (int t = 1; t < netCnt; t++)
             {
+
                 X[t] = W[t] * X[t - 1];
+
                 for (int j = 0; j < X[t].row; j++)
-                    X[t].a[j][0] = Sigmoid::Derivative_Y(B[t].a[j][0] + X[t].a[j][0]);
+                {
+
+                    X[t].a[j][0] = Sigmoid::Formula(B[t].a[j][0] + X[t].a[j][0]);
+                }
             }
         }
-        void BP::backPropagation(const Matrix<double> output)
+        void BPNet::backPropagation(const Matrix<double> output)
         {
             if (output.row != layCnt.back())
             {
@@ -75,12 +95,17 @@ namespace HCN
                         W[t].a[i][j] -= BATCH_SIZE * dx[t].a[i][0] * X[t - 1].a[j][0];
             }
         }
-        void BP::train(vector<Matrix<double>> input, vector<Matrix<double>> output)
+        void BPNet::train(vector<Matrix<double>> input, vector<Matrix<double>> output)
         {
-            for (int i = 0; i < input.size(); i++)
+            for (int t = 0; t < 10000; t++)
             {
-                forwardPropagation(input[i]);
-                backPropagation(output[i]);
+                cout << t << " "
+                     << "training" << endl;
+                for (int i = 0; i < input.size(); i++)
+                {
+                    forwardPropagation(input[i]);
+                    backPropagation(output[i]);
+                }
             }
         }
     }

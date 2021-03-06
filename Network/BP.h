@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 #include "../common/Activation.h"
-#include "../math/Matrix.h"
+#include "../math/Matrix.hpp"
 
 namespace HCN
 {
@@ -9,7 +9,9 @@ namespace HCN
         class BP
         {
         public:
-            std::vector<Matrix<double>> e;
+            double BATCH_SIZE = 0.5;
+            std::vector<Matrix<double>> D, X, W;
+            int netCnt;
             vector<int> layCnt;
             BP(vector<int> input);
             void init();

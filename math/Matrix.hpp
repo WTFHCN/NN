@@ -9,11 +9,11 @@ namespace HCN
     {
     private:
         /* data */
-        std::vector<std::vector<T>> a;
-
     public:
+        std::vector<std::vector<T>> a;
         int row, col;
-        Matrix(int row, int col, bool e = false);
+        Matrix(int row, int col, int e = 0, int rd = 0);
+        //Matrix<T> rev();
         Matrix<T> operator+(const Matrix<T> &x);
         Matrix<T> operator-(const Matrix<T> &x);
         Matrix<T> operator*(const Matrix<T> &x);
@@ -31,12 +31,12 @@ namespace HCN
             }
             return out;
         }
-        void DeBug();
+        // void DeBug();
         ~Matrix();
     };
 
     template <class T>
-    Matrix<T>::Matrix(int row, int col, bool e) : row(row), col(col)
+    Matrix<T>::Matrix(int row, int col, int e, int rd) : row(row), col(col)
     {
         a.resize(row, vector<T>(col, 0));
         if (e)
@@ -44,7 +44,25 @@ namespace HCN
             for (int i = 0; i < min(row, col); i++)
                 a[i][i] = 1;
         }
+        if (rd)
+        {
+            srand(time(NULL));
+            for (int i = 0; i < row; i++)
+                for (int j = 0; j < col; j++)
+                    a[i][j] = rand();
+        }
     }
+    // template <class T>
+    // Matrix<T> Matrix<T>::rev()
+    // {
+    //     Matrix<T> res(col, row);
+    //     for (int i = 0; i < row; i++)
+    //     {
+    //         for (int j = 0; j < col; j++)
+    //             res.a[i][j] = a[j][i];
+    //     }
+    //     return res;
+    // }
     template <class T>
     Matrix<T> Matrix<T>::operator*(const Matrix<T> &x)
     {
@@ -90,7 +108,7 @@ namespace HCN
     template <class T>
     Matrix<T> Matrix<T>::operator!()
     {
-        Matrix<T> res(row, col);
+        Matrix<T> res(col, row);
         for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < col; j++)
@@ -100,18 +118,18 @@ namespace HCN
         }
         return res;
     }
-    template <class T>
-    void Matrix<T>::DeBug()
-    {
-        for (int i = 0; i < row; i++)
-        {
-            for (int j = 0; j < col; j++)
-            {
-                cout << a[i][j] << " ";
-            }
-            cout << endl;
-        }
-    }
+    // template <class T>
+    // void Matrix<T>::DeBug()
+    // {
+    //     for (int i = 0; i < row; i++)
+    //     {
+    //         for (int j = 0; j < col; j++)
+    //         {
+    //             cout << a[i][j] << " ";
+    //         }
+    //         cout << endl;
+    //     }
+    // }
 
     template <class T>
     Matrix<T>::~Matrix()

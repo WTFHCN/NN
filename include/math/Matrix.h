@@ -19,8 +19,9 @@ namespace HCN
         Matrix<T> operator+(const Matrix<T> &x);
         Matrix<T> operator-(const Matrix<T> &x);
         Matrix<T> operator*(const Matrix<T> &x);
+        //Matrix<T> operator=(const Matrix<T> &x);
         Matrix<T> operator!();
-        // Matrix<T> operator*(const Matrix<T> &x);
+
         friend ostream &operator<<(ostream &out, const Matrix<T> &res)
         {
             for (int i = 0; i < res.row; i++)
@@ -82,6 +83,13 @@ namespace HCN
         }
         return res;
     }
+    // template <class T>
+    // Matrix<T> Matrix<T>::operator=(const Matrix<T> &x)
+    // {
+    //     a = x;
+
+    //     return;
+    // }
     template <class T>
     Matrix<T> Matrix<T>::operator+(const Matrix<T> &x)
     {

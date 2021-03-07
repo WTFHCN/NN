@@ -40,7 +40,7 @@ namespace HCN
                 B[i] = Matrix<double>(layCnt[i], 1, 2);
             }
         }
-        void BPNet::forwardPropagation(const Matrix<double> input)
+        void BPNet::forwardPropagation(const Matrix<double> input, Matrix<double> &outputRes)
         {
 
             if (input.row != layCnt[0])
@@ -57,6 +57,7 @@ namespace HCN
                     X[t].a[j][0] = Sigmoid::Formula(B[t].a[j][0] + X[t].a[j][0]);
                 }
             }
+            outputRes = X[netCnt - 1];
         }
         void BPNet::backPropagation(const Matrix<double> output)
         {
@@ -99,7 +100,9 @@ namespace HCN
                 //      << "training" << endl;
                 for (int i = 0; i < input.size(); i++)
                 {
-                    forwardPropagation(input[i]);
+                    Matrix<double> outputRes;
+                    forwardPropagation(input[i], outputRes);
+
                     backPropagation(output[i]);
                 }
             }

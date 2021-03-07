@@ -9,7 +9,7 @@ train_data = torchvision.datasets.MNIST(
     train=True,  # this is training data
     transform=torchvision.transforms.ToTensor(),    # 转换 PIL.Image or numpy.ndarray 成
                                                     # torch.FloatTensor (C x H x W), 训练的时候 normalize 成 [0.0, 1.0] 区间
-    download=False,          # 没下载就下载, 下载了就不用再下了
+    download=True,          # 没下载就下载, 下载了就不用再下了
 )
 print(train_data.train_data.size())
 print(train_data.train_labels.size())

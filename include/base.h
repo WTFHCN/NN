@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <ctime>
+#include <time.h>
 #include <assert.h>
 #include <fstream>
 #include <iomanip>

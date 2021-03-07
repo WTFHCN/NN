@@ -8,6 +8,7 @@ namespace HCN
     private:
         /* data */
     public:
+        int imageCow, imageCol;
         vector<Matrix<double>> input;
         vector<Matrix<double>> output;
         void read_Mnist(const string &mnist_img_path, const string &mnist_label_path);
@@ -65,10 +66,17 @@ namespace HCN
         mnist_image.read(reinterpret_cast<char *>(&cols), 4);
         cols = swap_endian(cols);
         rows = swap_endian(rows);
+        num_items = 100;
         input.resize(num_items);
         output.resize(num_items);
+        cout << "need to prepare " << num_items << endl;
         for (int i = 0; i < num_items; i++)
         {
+            if (i % 5 == 0)
+            {
+                double now = 1.0 * i / num_items;
+                cout << "prepare :" << setprecision(3) << now << "%" << endl;
+            }
             char *pixels = new char[rows * cols];
             mnist_image.read(pixels, rows * cols);
             char label;

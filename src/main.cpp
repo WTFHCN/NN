@@ -37,11 +37,15 @@ void BPtest()
     cout << "prepare is OK" << endl;
     test.init();
     cout << "init is OK" << endl;
+    auto start = clock();
+
     cout << "begin to train" << endl;
 
-    int trainNum = 100000;
+    int trainNum = 10;
     test.train(mnistTrainData.input, mnistTrainData.output, trainNum);
     cout << "train is OK" << endl;
+    auto end = clock();
+    cout << "cost :" << (double)(end - start) / CLOCKS_PER_SEC << endl;
     //test.test();
 }
 int main()

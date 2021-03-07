@@ -20,7 +20,7 @@ namespace HCN
             void build(vector<int> input);
             void init();
             void test(vector<Matrix<double>> input, vector<Matrix<double>> output);
-            Matrix<double> forwardPropagation(const Matrix<double> input);
+            void forwardPropagation(const Matrix<double> input, Matrix<double> &outputRes);
             void backPropagation(const Matrix<double> output);
             void train(vector<Matrix<double>> input, vector<Matrix<double>> output, const int trainNum);
         };

@@ -49,15 +49,11 @@ namespace HCN
                 return;
             }
             X[0] = input;
-
             for (int t = 1; t < netCnt; t++)
             {
-
                 X[t] = W[t] * X[t - 1];
-
                 for (int j = 0; j < X[t].row; j++)
                 {
-
                     X[t].a[j][0] = Sigmoid::Formula(B[t].a[j][0] + X[t].a[j][0]);
                 }
             }
@@ -73,7 +69,7 @@ namespace HCN
             double sum = 0;
             for (int i = 0; i < dx.back().row; i++)
                 sum += (X.back().a[i][0] - output.a[i][0]) * (X.back().a[i][0] - output.a[i][0]);
-            cout << "loss : " << sum / (2 * N) << endl;
+            cout << "loss : " << setprecision(10) << sum / (2 * N) << endl;
             for (int i = 0; i < dx.back().row; i++)
                 dx[netCnt - 1].a[i][0] = 2 * (X.back().a[i][0] - output.a[i][0]);
             for (int t = netCnt - 1; t; t--)
@@ -95,12 +91,12 @@ namespace HCN
                         W[t].a[i][j] -= BATCH_SIZE * dx[t].a[i][0] * X[t - 1].a[j][0];
             }
         }
-        void BPNet::train(vector<Matrix<double>> input, vector<Matrix<double>> output)
+        void BPNet::train(vector<Matrix<double>> input, vector<Matrix<double>> output, const int trainNum)
         {
-            for (int t = 0; t < 10000; t++)
+            for (int t = 0; t < trainNum; t++)
             {
-                cout << t << " "
-                     << "training" << endl;
+                // cout << t << " "
+                //      << "training" << endl;
                 for (int i = 0; i < input.size(); i++)
                 {
                     forwardPropagation(input[i]);

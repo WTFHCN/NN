@@ -1,10 +1,10 @@
 #include "base.h"
-
+#include "common/DataHelper.h"
 #include "math/Matrix.h"
 #include "common/Activation.h"
 #include "network/BP.h"
 
-void prepareData(vector<HCN::Matrix<double>> &Input, vector<HCN::Matrix<double>> &Output)
+void prepareXorData(vector<HCN::Matrix<double>> &Input, vector<HCN::Matrix<double>> &Output)
 {
     vector<vector<vector<double>>> input(4);
     vector<vector<vector<double>>> output(4);
@@ -23,19 +23,28 @@ void prepareData(vector<HCN::Matrix<double>> &Input, vector<HCN::Matrix<double>>
         Output[i] = HCN::ToMatrix(output[i]);
     }
 }
-int main()
+void BPtest()
 {
-    HCN::Matrix<double> a(3, 3, 2);
-
-    vector<int> level = {2, 2, 1};
+    vector<int> level = {28 * 28, 196, 49, 10};
     HCN::NetWork::BPNet test(level);
+    HCN::DataHelper mnistTrainData;
+    string trainImagesPath = "/Users/nacn/Desktop/BP Network/data/MNIST/raw/train-images-idx3-ubyte";
+    string trainLabelsPath = "/Users/nacn/Desktop/BP Network/data/MNIST/raw/train-labels-idx1-ubyte";
+    cout << "begin to prepare " << endl;
+    mnistTrainData.read_Mnist(trainImagesPath, trainLabelsPath);
 
-    vector<HCN::Matrix<double>> Input(4);
-    vector<HCN::Matrix<double>> Output(4);
-    prepareData(Input, Output);
+    // prepareData(mnistTrainData.input, mnistTrainData.output);
     cout << "prepare is OK" << endl;
     test.init();
     cout << "init is OK" << endl;
     cout << "begin to train" << endl;
-    test.train(Input, Output);
+
+    int trainNum = 100000;
+    test.train(mnistTrainData.input, mnistTrainData.output, trainNum);
+    cout << "train is OK" << endl;
+    //test.test();
+}
+int main()
+{
+    BPtest();
 }

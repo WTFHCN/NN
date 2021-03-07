@@ -19,9 +19,10 @@ namespace HCN
             BPNet(vector<int> input);
             void build(vector<int> input);
             void init();
-            void forwardPropagation(const Matrix<double> input);
+            void test(vector<Matrix<double>> input, vector<Matrix<double>> output);
+            Matrix<double> forwardPropagation(const Matrix<double> input);
             void backPropagation(const Matrix<double> output);
-            void train(vector<Matrix<double>> input, vector<Matrix<double>> output);
+            void train(vector<Matrix<double>> input, vector<Matrix<double>> output, const int trainNum);
         };
 
     }

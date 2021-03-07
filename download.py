@@ -11,7 +11,7 @@ train_data = torchvision.datasets.MNIST(
                                                     # torch.FloatTensor (C x H x W), 训练的时候 normalize 成 [0.0, 1.0] 区间
     download=True,          # 没下载就下载, 下载了就不用再下了
 )
-print(train_data.train_data.size())
-print(train_data.train_labels.size())
-plt.imshow(train_data.train_data[0].numpy(), cmap='gray')
-plt.show()
+# print(train_data.train_data.size())
+# print(train_data.train_labels.size())
+# plt.imshow(train_data.train_data[0].numpy(), cmap='gray')
+# plt.show()

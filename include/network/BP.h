@@ -8,6 +8,7 @@ namespace HCN
 {
     namespace NetWork
     {
+        //double LOSS_EPS = 1e-8;
         class BPNet
         {
         public:
@@ -19,10 +20,10 @@ namespace HCN
             BPNet(vector<int> input);
             void build(vector<int> input);
             void init();
-            void test(vector<Matrix<double>> input, vector<Matrix<double>> output);
+            void TestMnist(vector<Matrix<double>> input, vector<Matrix<double>> output, int imageCow, int imageCol, const int testNum);
             void forwardPropagation(const Matrix<double> input, Matrix<double> &outputRes);
             void backPropagation(const Matrix<double> output);
-            void train(vector<Matrix<double>> input, vector<Matrix<double>> output, const int trainNum);
+            void Train(vector<Matrix<double>> input, vector<Matrix<double>> output, const int trainNum);
         };
 
     }

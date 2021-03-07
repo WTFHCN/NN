@@ -21,6 +21,7 @@ namespace HCN
         Matrix<T> operator*(const Matrix<T> &x);
         //Matrix<T> operator=(const Matrix<T> &x);
         Matrix<T> operator!();
+        void ShowImage01(int imageRow, int imageCol);
 
         friend ostream &operator<<(ostream &out, const Matrix<T> &res)
         {
@@ -37,7 +38,21 @@ namespace HCN
         // void DeBug();
         ~Matrix();
     };
+    template <class T>
+    void Matrix<T>::ShowImage01(int imageRow, int imageCol)
+    {
 
+        cout << row << endl;
+        assert(col == 1);
+        for (int i = 0; i < imageRow; i++)
+        {
+            for (int j = 0; j < imageCol; j++)
+            {
+                cout << (int)a[i * imageCol + j][0];
+            }
+            cout << endl;
+        }
+    }
     template <class T>
     Matrix<T>::Matrix(int row, int col, int e) : row(row), col(col)
     {

@@ -8,6 +8,27 @@ namespace HCN
 {
     namespace NetWork
     {
+
+        double CalcLoss(Matrix<double> &outputRes, const Matrix<double> &output)
+        {
+            double sum = 0;
+            for (int i = 0; i < outputRes.row; i++)
+                sum += (outputRes.a[i][0] - output.a[i][0]) * (outputRes.a[i][0] - output.a[i][0]);
+            return sum / (2 * outputRes.row);
+        }
+        int CalcResultMnist(Matrix<double> &output)
+        {
+            double LOSS_EPS = 1e-8;
+            assert(output.col == 1);
+            vector<pair<double, int>> ans(output.row);
+            for (int i = 0; i < output.row; i++)
+                ans[i] = {output.a[i][0], i};
+            sort(ans.begin(), ans.end(), greater<pair<double, int>>());
+            if (fabs(ans[0].first - ans[1].first) < LOSS_EPS)
+                return -1;
+            else
+                return ans[0].second;
+        }
         BPNet::BPNet(vector<int> input)
         {
 
@@ -59,6 +80,7 @@ namespace HCN
             }
             outputRes = X[netCnt - 1];
         }
+
         void BPNet::backPropagation(const Matrix<double> output)
         {
             if (output.row != layCnt.back())
@@ -66,11 +88,7 @@ namespace HCN
                 cout << "输出维度不相同" << endl;
                 return;
             }
-            int N = layCnt.back();
-            double sum = 0;
-            for (int i = 0; i < dx.back().row; i++)
-                sum += (X.back().a[i][0] - output.a[i][0]) * (X.back().a[i][0] - output.a[i][0]);
-            cout << "loss : " << setprecision(10) << sum / (2 * N) << endl;
+
             for (int i = 0; i < dx.back().row; i++)
                 dx[netCnt - 1].a[i][0] = 2 * (X.back().a[i][0] - output.a[i][0]);
             for (int t = netCnt - 1; t; t--)
@@ -92,20 +110,43 @@ namespace HCN
                         W[t].a[i][j] -= BATCH_SIZE * dx[t].a[i][0] * X[t - 1].a[j][0];
             }
         }
-        void BPNet::train(vector<Matrix<double>> input, vector<Matrix<double>> output, const int trainNum)
+        void BPNet::Train(vector<Matrix<double>> input, vector<Matrix<double>> output, const int trainNum)
         {
+            cout << "****************"
+                 << "begin to train" << endl;
             for (int t = 0; t < trainNum; t++)
             {
-                // cout << t << " "
-                //      << "training" << endl;
-                for (int i = 0; i < input.size(); i++)
-                {
-                    Matrix<double> outputRes;
-                    forwardPropagation(input[i], outputRes);
-
-                    backPropagation(output[i]);
-                }
+                Matrix<double> outputRes;
+                forwardPropagation(input[t % input.size()], outputRes);
+                if (t % (trainNum / 100) == 0)
+                    cout << "loss :" << CalcLoss(outputRes, output[t % input.size()]) << endl;
+                backPropagation(output[t % input.size()]);
             }
+            cout << "****************"
+                 << "end to train" << endl;
+        }
+        void BPNet::TestMnist(vector<Matrix<double>> input, vector<Matrix<double>> output, int imageRow, int imageCol, const int testNum)
+        {
+            cout << "****************"
+                 << "begin to test" << endl;
+            int corretAns = 0;
+            for (int t = 0; t < testNum; t++)
+            {
+                Matrix<double> outputRes;
+                forwardPropagation(input[t % input.size()], outputRes);
+                cout << "the " << t << " test" << endl;
+                input[t % input.size()].ShowImage01(imageRow, imageCol);
+                cout << outputRes << endl;
+                cout << "answer : " << CalcResultMnist(output[t % input.size()]) << endl;
+                cout << "now : " << CalcResultMnist(outputRes) << endl;
+                if (CalcResultMnist(output[t % input.size()]) == CalcResultMnist(outputRes))
+                    corretAns++;
+                cout << endl;
+                //backPropagation(output[t % input.size()]);
+            }
+            cout << "Final Loss : " << corretAns << "/" << testNum << endl;
+            cout << "****************"
+                 << "end to test" << endl;
         }
     }
 

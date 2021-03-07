@@ -8,7 +8,7 @@ namespace HCN
     private:
         /* data */
     public:
-        int imageCow, imageCol;
+        int imageRow, imageCol;
         vector<Matrix<double>> input;
         vector<Matrix<double>> output;
         void read_Mnist(const string &mnist_img_path, const string &mnist_label_path);
@@ -34,9 +34,9 @@ namespace HCN
         uint32_t magic;     //文件中的魔术数(magic number)
         uint32_t num_items; //mnist图像集文件中的图像数目
         uint32_t num_label; //mnist标签集文件中的标签数目
-        uint32_t rows;      //图像的行数
-        uint32_t cols;      //图像的列数
-                            //读魔术数
+        // uint32_t imageRow;      //图像的行数
+        // uint32_t imageCol;      //图像的列数
+        //读魔术数
         mnist_image.read(reinterpret_cast<char *>(&magic), 4);
         magic = swap_endian(magic);
         if (magic != 2051)
@@ -62,10 +62,10 @@ namespace HCN
             return;
         }
         //cout << num_items << " " << num_label << endl;
-        mnist_image.read(reinterpret_cast<char *>(&rows), 4);
-        mnist_image.read(reinterpret_cast<char *>(&cols), 4);
-        cols = swap_endian(cols);
-        rows = swap_endian(rows);
+        mnist_image.read(reinterpret_cast<char *>(&imageRow), 4);
+        mnist_image.read(reinterpret_cast<char *>(&imageCol), 4);
+        imageCol = swap_endian(imageCol);
+        imageRow = swap_endian(imageRow);
         num_items = 100;
         input.resize(num_items);
         output.resize(num_items);
@@ -77,21 +77,21 @@ namespace HCN
                 double now = 1.0 * i / num_items;
                 cout << "prepare :" << setprecision(3) << now << "%" << endl;
             }
-            char *pixels = new char[rows * cols];
-            mnist_image.read(pixels, rows * cols);
+            char *pixels = new char[imageRow * imageCol];
+            mnist_image.read(pixels, imageRow * imageCol);
             char label;
             mnist_label.read(&label, 1);
 
-            vector<vector<double>> in(rows * cols, vector<double>(1));
+            vector<vector<double>> in(imageRow * imageCol, vector<double>(1));
             vector<vector<double>> out(10, vector<double>(1));
             out[(unsigned int)label][0] = 1;
-            for (int a = 0; a < rows; a++)
-                for (int b = 0; b < cols; b++)
+            for (int a = 0; a < imageRow; a++)
+                for (int b = 0; b < imageCol; b++)
                 {
-                    if (pixels[a * cols + b] == 0)
-                        in[a * cols + b][0] = 0;
+                    if (pixels[a * imageCol + b] == 0)
+                        in[a * imageCol + b][0] = 0;
                     else
-                        in[a * cols + b][0] = 1;
+                        in[a * imageCol + b][0] = 1;
                 }
             input[i] = ToMatrix(in);
             output[i] = ToMatrix(out);

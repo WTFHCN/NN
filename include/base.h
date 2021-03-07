@@ -4,3 +4,5 @@
 #include <assert.h>
 #include <fstream>
 #include <iomanip>
+#include <algorithm>
+#include <math.h>

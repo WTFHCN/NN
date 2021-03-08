@@ -12,7 +12,7 @@ namespace HCN
         class BPNet
         {
         public:
-            double BATCH_SIZE = 1;
+            double BATCH_SIZE = 0.7;
             std::vector<Matrix<double>> dx, X, W, B;
             int netCnt;
             vector<int> layCnt;
@@ -24,8 +24,10 @@ namespace HCN
             void forwardPropagation(const Matrix<double> input, Matrix<double> &outputRes);
             void backPropagation(const Matrix<double> output);
             void Train(vector<Matrix<double>> input, vector<Matrix<double>> output, const int trainNum);
+            void Save(string Path);
+            void Load(string Path);
+            void TestImage(string Path);
         };
-
     }
 }
 #endif

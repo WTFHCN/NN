@@ -23,7 +23,7 @@ void prepareXorData(vector<HCN::Matrix<double>> &Input, vector<HCN::Matrix<doubl
         Output[i] = HCN::ToMatrix(output[i]);
     }
 }
-void BPtrain(HCN::NetWork::BPNet &test)
+void BPtrain(HCN::NetWork::BPNet &test, int trainNum)
 {
     HCN::DataHelper mnistTrainData;
     string trainImagesPath = "/Users/nacn/Desktop/BP Network/data/MNIST/raw/train-images-idx3-ubyte";
@@ -33,19 +33,18 @@ void BPtrain(HCN::NetWork::BPNet &test)
 
     // prepareData(mnistTrainData.input, mnistTrainData.output);
     cout << "prepare is OK" << endl;
-    test.init();
+
     cout << "init is OK" << endl;
     auto start = clock();
 
     cout << "begin to train" << endl;
 
-    int trainNum = 10000;
     test.Train(mnistTrainData.input, mnistTrainData.output, trainNum);
     cout << "train is OK" << endl;
     auto end = clock();
     cout << "cost :" << (double)(end - start) / CLOCKS_PER_SEC << endl;
 }
-void BPtest(HCN::NetWork::BPNet &test)
+void BPtest(HCN::NetWork::BPNet &test, int testNum)
 {
     HCN::DataHelper mnistTestData;
     string testImagesPath = "/Users/nacn/Desktop/BP Network/data/MNIST/raw/t10k-images-idx3-ubyte";
@@ -54,7 +53,7 @@ void BPtest(HCN::NetWork::BPNet &test)
     cout << "begin to prepare " << endl;
 
     mnistTestData.read_Mnist(testImagesPath, testLabelsPath);
-    int testNum = 40;
+
     auto start = clock();
     test.TestMnist(mnistTestData.input, mnistTestData.output, mnistTestData.imageRow, mnistTestData.imageCol, testNum);
     auto end = clock();
@@ -64,8 +63,15 @@ void BPwork()
 {
     vector<int> level = {28 * 28, 196, 49, 10};
     HCN::NetWork::BPNet test(level);
-    BPtrain(test);
-    BPtest(test);
+    test.init();
+
+    test.Load("../model/BPTest");
+    // BPtrain(test, 2000);
+    //BPtest(test, 1000);
+
+    test.Save("../model/BPTest");
+    test.TestImage("../1.txt");
+
     //test.test();
 }
 int main()

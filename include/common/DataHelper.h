@@ -75,7 +75,7 @@ namespace HCN
             if (i % 5 == 0)
             {
                 double now = 1.0 * i / num_items;
-                cout << "prepare :" << setprecision(3) << now << "%" << endl;
+                cout << "prepare :" << now * 100 << "%" << endl;
             }
             char *pixels = new char[imageRow * imageCol];
             mnist_image.read(pixels, imageRow * imageCol);

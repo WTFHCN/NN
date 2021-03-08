@@ -29,6 +29,75 @@ namespace HCN
             else
                 return ans[0].second;
         }
+        void BPNet::Save(string Path)
+        {
+            ofstream out(Path, ios::trunc);
+            if (out.fail())
+            {
+                cout << "files save error" << endl;
+                exit(0);
+                return;
+            }
+            else
+            {
+                cout << "files save OK" << endl;
+                out << netCnt << endl;
+                for (int i : layCnt)
+                    out << i << " ";
+                out << endl;
+                for (auto i : W)
+                    out << i << endl;
+                for (auto i : B)
+                    out << i << endl;
+            }
+            out.close();
+        }
+        void BPNet::Load(string Path)
+        {
+            ifstream in(Path);
+            if (in.fail())
+            {
+                cout << "files load error" << endl;
+                exit(0);
+                return;
+            }
+            else
+            {
+                cout << "files load OK" << endl;
+                int n;
+                vector<int> input;
+                in >> n;
+                input.resize(n);
+                for (int i = 0; i < n; i++)
+                    in >> input[i];
+                build(input);
+                init();
+                for (auto &i : W)
+                    in >> i;
+                for (auto &i : B)
+                    in >> i;
+            }
+            in.close();
+        }
+        void BPNet::TestImage(string Path)
+        {
+            ifstream in(Path);
+            int row = 28, col = 28;
+            Matrix<double> input(row * col, 1);
+            in >> input;
+            Matrix<double> resOutput;
+            forwardPropagation(input, resOutput);
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    cout << input.a[i * col + j][0];
+                }
+                cout << endl;
+            }
+
+            cout << "answer : " << CalcResultMnist(resOutput) << endl;
+        }
         BPNet::BPNet(vector<int> input)
         {
 
@@ -110,16 +179,21 @@ namespace HCN
                         W[t].a[i][j] -= BATCH_SIZE * dx[t].a[i][0] * X[t - 1].a[j][0];
             }
         }
+        mt19937_64 rnd(chrono::steady_clock::now().time_since_epoch().count());
         void BPNet::Train(vector<Matrix<double>> input, vector<Matrix<double>> output, const int trainNum)
         {
             cout << "****************"
                  << "begin to train" << endl;
-            for (int t = 0; t < trainNum; t++)
+            for (int T = 0; T < trainNum; T++)
             {
+                auto t = rnd();
                 Matrix<double> outputRes;
                 forwardPropagation(input[t % input.size()], outputRes);
-                if (t % (trainNum / 100) == 0)
+                if (T % (trainNum / 100) == 0)
+                {
+                    cout << T / (trainNum / 100) << "%" << endl;
                     cout << "loss :" << CalcLoss(outputRes, output[t % input.size()]) << endl;
+                }
                 backPropagation(output[t % input.size()]);
             }
             cout << "****************"
@@ -130,19 +204,22 @@ namespace HCN
             cout << "****************"
                  << "begin to test" << endl;
             int corretAns = 0;
-            for (int t = 0; t < testNum; t++)
+            for (int T = 0; T < testNum; T++)
             {
+                auto t = rnd();
                 Matrix<double> outputRes;
                 forwardPropagation(input[t % input.size()], outputRes);
+
                 cout << "the " << t << " test" << endl;
                 input[t % input.size()].ShowImage01(imageRow, imageCol);
                 cout << outputRes << endl;
                 cout << "answer : " << CalcResultMnist(output[t % input.size()]) << endl;
                 cout << "now : " << CalcResultMnist(outputRes) << endl;
+                cout << endl;
                 if (CalcResultMnist(output[t % input.size()]) == CalcResultMnist(outputRes))
                     corretAns++;
-                cout << endl;
-                //backPropagation(output[t % input.size()]);
+
+                backPropagation(output[t % input.size()]);
             }
             cout << "Final Loss : " << corretAns << "/" << testNum << endl;
             cout << "****************"

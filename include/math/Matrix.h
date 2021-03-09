@@ -23,7 +23,7 @@ namespace HCN
         Matrix<T> operator!();
         void ShowImage01(int imageRow, int imageCol);
 
-        friend ostream &operator<<(ostream &out,  Matrix<T> &res)
+        friend ostream &operator<<(ostream &out, Matrix<T> &res)
         {
             for (int i = 0; i < res.row; i++)
             {
@@ -35,7 +35,7 @@ namespace HCN
             }
             return out;
         }
-        friend istream &operator>>(istream &in,  Matrix<T> &res)
+        friend istream &operator>>(istream &in, Matrix<T> &res)
         {
             for (int i = 0; i < res.row; i++)
             {
@@ -53,15 +53,15 @@ namespace HCN
     void Matrix<T>::ShowImage01(int imageRow, int imageCol)
     {
 
-        cout << row << endl;
+        LOG(INFO) << row << endl;
         assert(col == 1);
         for (int i = 0; i < imageRow; i++)
         {
             for (int j = 0; j < imageCol; j++)
             {
-                cout << (int)a[i * imageCol + j][0];
+                LOG(INFO) << (int)a[i * imageCol + j][0];
             }
-            cout << endl;
+            LOG(INFO) << endl;
         }
     }
     template <class T>

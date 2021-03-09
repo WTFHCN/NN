@@ -41,14 +41,14 @@ namespace HCN
         magic = swap_endian(magic);
         if (magic != 2051)
         {
-            cout << "this is not the mnist image file" << endl;
+            LOG(ERROR) << "this is not the mnist image file" << endl;
             return;
         }
         mnist_label.read(reinterpret_cast<char *>(&magic), 4);
         magic = swap_endian(magic);
         if (magic != 2049)
         {
-            cout << "this is not the mnist label file" << endl;
+            LOG(ERROR) << "this is not the mnist label file" << endl;
             return;
         }
         mnist_image.read(reinterpret_cast<char *>(&num_items), 4);
@@ -69,13 +69,13 @@ namespace HCN
         num_items = 100;
         input.resize(num_items);
         output.resize(num_items);
-        cout << "need to prepare " << num_items << endl;
+        LOG(INFO) << "need to prepare " << num_items << endl;
         for (int i = 0; i < num_items; i++)
         {
             if (i % 5 == 0)
             {
                 double now = 1.0 * i / num_items;
-                cout << "prepare :" << now * 100 << "%" << endl;
+                LOG(INFO) << "prepare :" << now * 100 << "%" << endl;
             }
             char *pixels = new char[imageRow * imageCol];
             mnist_image.read(pixels, imageRow * imageCol);

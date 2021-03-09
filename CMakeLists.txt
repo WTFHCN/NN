@@ -16,10 +16,12 @@ project (BP_Demo)
 
 # Set the directories that should be included in the build command for this target
 # when running g++ these will be included as -I/directory/path/
-include_directories(${PROJECT_SOURCE_DIR}/include)
 
+find_package (gflags REQUIRED)
+find_package (glog REQUIRED)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 aux_source_directory(./src SOURCE_DIR)
 add_subdirectory(./include/network)
 add_executable (${project_name} ${SOURCE_DIR})
 
-target_link_libraries(${project_name} NetWork)
+target_link_libraries(${project_name} NetWork glog gflags)

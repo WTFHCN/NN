@@ -3,6 +3,12 @@
 #include "math/Matrix.h"
 #include "common/Activation.h"
 #include "network/BP.h"
+using namespace std;
+
+DEFINE_int32(testNum, 0, "test num");
+DEFINE_int32(trainNum, 0, "train num");
+DEFINE_string(modelSavePath, "../model/BPTest", "modelSavePath");
+DEFINE_string(modelLoadPath, "../model/BPTest", "modelSavePath");
 
 void prepareXorData(vector<HCN::Matrix<double>> &Input, vector<HCN::Matrix<double>> &Output)
 {
@@ -28,21 +34,21 @@ void BPtrain(HCN::NetWork::BPNet &test, int trainNum)
     HCN::DataHelper mnistTrainData;
     string trainImagesPath = "/Users/nacn/Desktop/BP Network/data/MNIST/raw/train-images-idx3-ubyte";
     string trainLabelsPath = "/Users/nacn/Desktop/BP Network/data/MNIST/raw/train-labels-idx1-ubyte";
-    cout << "begin to prepare " << endl;
+    LOG(INFO) << "begin to prepare " << endl;
     mnistTrainData.read_Mnist(trainImagesPath, trainLabelsPath);
 
     // prepareData(mnistTrainData.input, mnistTrainData.output);
-    cout << "prepare is OK" << endl;
+    LOG(INFO) << "prepare is OK" << endl;
 
-    cout << "init is OK" << endl;
+    LOG(INFO) << "init is OK" << endl;
     auto start = clock();
 
-    cout << "begin to train" << endl;
+    LOG(INFO) << "begin to train" << endl;
 
     test.Train(mnistTrainData.input, mnistTrainData.output, trainNum);
-    cout << "train is OK" << endl;
+    LOG(INFO) << "train is OK" << endl;
     auto end = clock();
-    cout << "cost :" << (double)(end - start) / CLOCKS_PER_SEC << endl;
+    LOG(INFO) << "cost :" << (double)(end - start) / CLOCKS_PER_SEC << endl;
 }
 void BPtest(HCN::NetWork::BPNet &test, int testNum)
 {
@@ -50,14 +56,14 @@ void BPtest(HCN::NetWork::BPNet &test, int testNum)
     string testImagesPath = "/Users/nacn/Desktop/BP Network/data/MNIST/raw/t10k-images-idx3-ubyte";
     string testLabelsPath = "/Users/nacn/Desktop/BP Network/data/MNIST/raw/t10k-labels-idx1-ubyte";
 
-    cout << "begin to prepare " << endl;
+    LOG(INFO) << "begin to prepare " << endl;
 
     mnistTestData.read_Mnist(testImagesPath, testLabelsPath);
 
     auto start = clock();
     test.TestMnist(mnistTestData.input, mnistTestData.output, mnistTestData.imageRow, mnistTestData.imageCol, testNum);
     auto end = clock();
-    cout << "cost :" << (double)(end - start) / CLOCKS_PER_SEC << endl;
+    LOG(INFO) << "cost :" << (double)(end - start) / CLOCKS_PER_SEC << endl;
 }
 void BPwork()
 {
@@ -65,16 +71,21 @@ void BPwork()
     HCN::NetWork::BPNet test(level);
     test.init();
 
-    test.Load("../model/BPTest");
-    // BPtrain(test, 2000);
-    //BPtest(test, 1000);
+    test.Load(FLAGS_modelLoadPath);
+    BPtrain(test, FLAGS_trainNum);
 
-    test.Save("../model/BPTest");
+    BPtest(test, FLAGS_testNum);
+
+    test.Save(FLAGS_modelLoadPath);
     test.TestImage("../1.txt");
 
     //test.test();
 }
-int main()
+
+int main(int argc, char **argv)
 {
+    gflags::ParseCommandLineFlags(&argc, &argv, true);
+    google::InitGoogleLogging(argv[0]);
+    FLAGS_log_dir = "./log";
     BPwork();
 }

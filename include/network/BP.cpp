@@ -135,7 +135,7 @@ namespace HCN
 
             if (input.row != layCnt[0])
             {
-                cout << "输入维度不相同" << endl;
+                LOG(ERROR) << "输入维度不相同" << endl;
                 return;
             }
             X[0] = input;
@@ -154,7 +154,7 @@ namespace HCN
         {
             if (output.row != layCnt.back())
             {
-                cout << "输出维度不相同" << endl;
+                LOG(ERROR) << "输出维度不相同" << endl;
                 return;
             }
 
@@ -182,27 +182,31 @@ namespace HCN
         mt19937_64 rnd(chrono::steady_clock::now().time_since_epoch().count());
         void BPNet::Train(vector<Matrix<double>> input, vector<Matrix<double>> output, const int trainNum)
         {
-            cout << "****************"
-                 << "begin to train" << endl;
+            if (trainNum == 0)
+                return;
+            LOG(INFO) << "****************"
+                      << "begin to train" << endl;
             for (int T = 0; T < trainNum; T++)
             {
                 auto t = rnd();
                 Matrix<double> outputRes;
                 forwardPropagation(input[t % input.size()], outputRes);
-                if (T % (trainNum / 100) == 0)
+                if (trainNum < 100 || T % (trainNum / 100) == 0)
                 {
-                    cout << T / (trainNum / 100) << "%" << endl;
-                    cout << "loss :" << CalcLoss(outputRes, output[t % input.size()]) << endl;
+                    LOG(INFO) << T * 1.00 / (trainNum)*100 << "%" << endl;
+                    LOG(INFO) << "loss :" << CalcLoss(outputRes, output[t % input.size()]) << endl;
                 }
                 backPropagation(output[t % input.size()]);
             }
-            cout << "****************"
-                 << "end to train" << endl;
+            LOG(INFO) << "****************"
+                      << "end to train" << endl;
         }
         void BPNet::TestMnist(vector<Matrix<double>> input, vector<Matrix<double>> output, int imageRow, int imageCol, const int testNum)
         {
-            cout << "****************"
-                 << "begin to test" << endl;
+            if (testNum == 0)
+                return;
+            LOG(INFO) << "****************"
+                      << "begin to test" << endl;
             int corretAns = 0;
             for (int T = 0; T < testNum; T++)
             {
@@ -210,20 +214,21 @@ namespace HCN
                 Matrix<double> outputRes;
                 forwardPropagation(input[t % input.size()], outputRes);
 
-                cout << "the " << t << " test" << endl;
-                input[t % input.size()].ShowImage01(imageRow, imageCol);
-                cout << outputRes << endl;
-                cout << "answer : " << CalcResultMnist(output[t % input.size()]) << endl;
-                cout << "now : " << CalcResultMnist(outputRes) << endl;
-                cout << endl;
+                // LOG(INFO) << "the " << t << " test" << endl;
+                // input[t % input.size()].ShowImage01(imageRow, imageCol);
+                // LOG(INFO) << outputRes << endl;
+                // LOG(INFO) << "answer : " << CalcResultMnist(output[t % input.size()]) << endl;
+                // LOG(INFO) << "now : " << CalcResultMnist(outputRes) << endl;
+                // LOG(INFO) << endl;
                 if (CalcResultMnist(output[t % input.size()]) == CalcResultMnist(outputRes))
                     corretAns++;
 
                 backPropagation(output[t % input.size()]);
             }
+            LOG(INFO) << "Final Loss : " << corretAns << "/" << testNum << endl;
             cout << "Final Loss : " << corretAns << "/" << testNum << endl;
-            cout << "****************"
-                 << "end to test" << endl;
+            LOG(INFO) << "****************"
+                      << "end to test" << endl;
         }
     }
 

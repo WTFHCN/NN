@@ -18,10 +18,10 @@ class Segment(tkinter.Canvas):
     def add_line(self, event):
         '''画一条线段'''
         self.create_line(self.lastx, self.lasty, event.x,
-                         event.y, fill='black', width=3)
+                         event.y, fill='black', width=20)
         global draw
         draw.line((self.lastx, self.lasty, event.x,
-                   event.y), fill=(0, 0, 0), width=15)
+                   event.y), fill=(0, 0, 0), width=20)
         self.xy(event)
 
     def layout(self):
@@ -43,6 +43,14 @@ def getter():
                 f.write(str(A[i][j]))
                 f.write(' ')
             f.write('\n')
+
+
+def clearAll():
+    global image1
+    global draw
+    segment.delete(tkinter.ALL)
+    image1 = Image.new("RGB", (280, 280), white)
+    draw = ImageDraw.Draw(image1)
 # def main():
 
 
@@ -60,8 +68,11 @@ root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 segment = Segment(root)
 
-corretB = tkinter.Button(root, text="点我", width=28, command=getter)
+corretA = tkinter.Button(root, text="点我", width=28, command=getter)
+corretB = tkinter.Button(root,
+                         text='删除全部', width=28,
+                         command=clearAll)
 segment.pack()
+corretA.pack()
 corretB.pack()
-
 root.mainloop()

@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/BP_Demo.dir/src/main.cpp.o -o BP_Demo  include/network/libNetWork.a -lglog /usr/local/lib/libgflags.2.2.2.dylib 

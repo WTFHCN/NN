@@ -1,0 +1,55 @@
+Log file created at: 2021/03/09 18:57:25
+Running on machine: huangchnuodeMBP
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0309 18:57:25.717731 268381696 BP.cpp:66] files load OK
+I0309 18:57:25.793184 268381696 main.cpp:37] begin to prepare 
+I0309 18:57:25.793323 268381696 DataHelper.h:72] need to prepare 100
+I0309 18:57:25.793331 268381696 DataHelper.h:78] prepare :0%
+I0309 18:57:25.801213 268381696 DataHelper.h:78] prepare :5%
+I0309 18:57:25.809115 268381696 DataHelper.h:78] prepare :10%
+I0309 18:57:25.817032 268381696 DataHelper.h:78] prepare :15%
+I0309 18:57:25.824605 268381696 DataHelper.h:78] prepare :20%
+I0309 18:57:25.832127 268381696 DataHelper.h:78] prepare :25%
+I0309 18:57:25.839617 268381696 DataHelper.h:78] prepare :30%
+I0309 18:57:25.847734 268381696 DataHelper.h:78] prepare :35%
+I0309 18:57:25.855304 268381696 DataHelper.h:78] prepare :40%
+I0309 18:57:25.863397 268381696 DataHelper.h:78] prepare :45%
+I0309 18:57:25.871309 268381696 DataHelper.h:78] prepare :50%
+I0309 18:57:25.879171 268381696 DataHelper.h:78] prepare :55%
+I0309 18:57:25.886859 268381696 DataHelper.h:78] prepare :60%
+I0309 18:57:25.894968 268381696 DataHelper.h:78] prepare :65%
+I0309 18:57:25.902673 268381696 DataHelper.h:78] prepare :70%
+I0309 18:57:25.910650 268381696 DataHelper.h:78] prepare :75%
+I0309 18:57:25.918516 268381696 DataHelper.h:78] prepare :80%
+I0309 18:57:25.926292 268381696 DataHelper.h:78] prepare :85%
+I0309 18:57:25.934146 268381696 DataHelper.h:78] prepare :90%
+I0309 18:57:25.941875 268381696 DataHelper.h:78] prepare :95%
+I0309 18:57:25.949749 268381696 main.cpp:41] prepare is OK
+I0309 18:57:25.949761 268381696 main.cpp:43] init is OK
+I0309 18:57:25.949781 268381696 main.cpp:46] begin to train
+I0309 18:57:25.984776 268381696 main.cpp:49] train is OK
+I0309 18:57:25.984795 268381696 main.cpp:51] cost :0.034413
+I0309 18:57:25.999753 268381696 main.cpp:59] begin to prepare 
+I0309 18:57:25.999924 268381696 DataHelper.h:72] need to prepare 100
+I0309 18:57:25.999931 268381696 DataHelper.h:78] prepare :0%
+I0309 18:57:26.007455 268381696 DataHelper.h:78] prepare :5%
+I0309 18:57:26.016373 268381696 DataHelper.h:78] prepare :10%
+I0309 18:57:26.023795 268381696 DataHelper.h:78] prepare :15%
+I0309 18:57:26.031452 268381696 DataHelper.h:78] prepare :20%
+I0309 18:57:26.038903 268381696 DataHelper.h:78] prepare :25%
+I0309 18:57:26.046231 268381696 DataHelper.h:78] prepare :30%
+I0309 18:57:26.053438 268381696 DataHelper.h:78] prepare :35%
+I0309 18:57:26.060978 268381696 DataHelper.h:78] prepare :40%
+I0309 18:57:26.068738 268381696 DataHelper.h:78] prepare :45%
+I0309 18:57:26.076355 268381696 DataHelper.h:78] prepare :50%
+I0309 18:57:26.083581 268381696 DataHelper.h:78] prepare :55%
+I0309 18:57:26.091008 268381696 DataHelper.h:78] prepare :60%
+I0309 18:57:26.098394 268381696 DataHelper.h:78] prepare :65%
+I0309 18:57:26.105723 268381696 DataHelper.h:78] prepare :70%
+I0309 18:57:26.113387 268381696 DataHelper.h:78] prepare :75%
+I0309 18:57:26.120813 268381696 DataHelper.h:78] prepare :80%
+I0309 18:57:26.128369 268381696 DataHelper.h:78] prepare :85%
+I0309 18:57:26.135524 268381696 DataHelper.h:78] prepare :90%
+I0309 18:57:26.143064 268381696 DataHelper.h:78] prepare :95%
+I0309 18:57:26.182842 268381696 main.cpp:66] cost :0.032567
+I0309 18:57:26.198174 268381696 BP.cpp:43] files save OK

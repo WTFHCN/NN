@@ -23,5 +23,6 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 aux_source_directory(./src SOURCE_DIR)
 add_subdirectory(./include/network)
 add_executable (${project_name} ${SOURCE_DIR})
+# add_library(test SHARED ${SOURCE_DIR})
 
 target_link_libraries(${project_name} NetWork glog gflags)

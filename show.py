@@ -1,5 +1,9 @@
 
 import tkinter
+import ctypes
+import os
+import tkinter.messagebox
+import subprocess
 import numpy as np
 from PIL import ImageGrab, Image, ImageDraw
 
@@ -18,7 +22,7 @@ class Segment(tkinter.Canvas):
     def add_line(self, event):
         '''画一条线段'''
         self.create_line(self.lastx, self.lasty, event.x,
-                         event.y, fill='black', width=20)
+                         event.y, fill='black', width=5)
         global draw
         draw.line((self.lastx, self.lasty, event.x,
                    event.y), fill=(0, 0, 0), width=20)
@@ -43,6 +47,18 @@ def getter():
                 f.write(str(A[i][j]))
                 f.write(' ')
             f.write('\n')
+        for i in range(len(A)):
+            for j in range(len(A[i])):
+                f.write(str(A[i][j]))
+
+            f.write('\n')
+    global ans
+    main = "./build/BP_Demo"
+    if os.path.exists(main):
+        rc, out = subprocess.getstatusoutput(main)
+        #tkinter.messagebox.showinfo('识别答案', out)
+        ans.configure(text=str(out))
+        print(out)
 
 
 def clearAll():
@@ -57,8 +73,9 @@ def clearAll():
 # def __init__():
 #     main()
 
+
 white = (255, 255, 255)
-green = (0, 128, 0)
+
 
 image1 = Image.new("RGB", (280, 280), white)
 draw = ImageDraw.Draw(image1)
@@ -72,7 +89,9 @@ corretA = tkinter.Button(root, text="点我", width=28, command=getter)
 corretB = tkinter.Button(root,
                          text='删除全部', width=28,
                          command=clearAll)
+ans = tkinter.Label(root, text="识别不出来")
 segment.pack()
 corretA.pack()
 corretB.pack()
+ans.pack()
 root.mainloop()

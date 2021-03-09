@@ -9,7 +9,7 @@ DEFINE_int32(testNum, 0, "test num");
 DEFINE_int32(trainNum, 0, "train num");
 DEFINE_string(modelSavePath, "model/BPTest", "modelSavePath");
 DEFINE_string(modelLoadPath, "model/BPTest", "modelSavePath");
-
+DEFINE_double(batchSize, 0.5, "batchSize");
 void prepareXorData(vector<HCN::Matrix<double>> &Input, vector<HCN::Matrix<double>> &Output)
 {
     vector<vector<vector<double>>> input(4);
@@ -70,7 +70,7 @@ void BPwork()
     vector<int> level = {28 * 28, 196, 49, 10};
     HCN::NetWork::BPNet test(level);
     test.init();
-
+    test.BATCH_SIZE = FLAGS_batchSize;
     test.Load(FLAGS_modelLoadPath);
     BPtrain(test, FLAGS_trainNum);
 

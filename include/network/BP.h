@@ -26,7 +26,7 @@ namespace HCN
             void Train(vector<Matrix<double>> input, vector<Matrix<double>> output, const int trainNum);
             void Save(string Path);
             void Load(string Path);
-            void TestImage(string Path);
+            int TestImage(string Path);
         };
     }
 }

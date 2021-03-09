@@ -34,13 +34,13 @@ namespace HCN
             ofstream out(Path, ios::trunc);
             if (out.fail())
             {
-                cout << "files save error" << endl;
+                LOG(INFO) << "files save error" << endl;
                 exit(0);
                 return;
             }
             else
             {
-                cout << "files save OK" << endl;
+                LOG(INFO) << "files save OK" << endl;
                 out << netCnt << endl;
                 for (int i : layCnt)
                     out << i << " ";
@@ -57,13 +57,13 @@ namespace HCN
             ifstream in(Path);
             if (in.fail())
             {
-                cout << "files load error" << endl;
+                LOG(INFO) << "files load error" << endl;
                 exit(0);
                 return;
             }
             else
             {
-                cout << "files load OK" << endl;
+                LOG(INFO) << "files load OK" << endl;
                 int n;
                 vector<int> input;
                 in >> n;
@@ -79,7 +79,7 @@ namespace HCN
             }
             in.close();
         }
-        void BPNet::TestImage(string Path)
+        int BPNet::TestImage(string Path)
         {
             ifstream in(Path);
             int row = 28, col = 28;
@@ -87,16 +87,8 @@ namespace HCN
             in >> input;
             Matrix<double> resOutput;
             forwardPropagation(input, resOutput);
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < col; j++)
-                {
-                    cout << input.a[i * col + j][0];
-                }
-                cout << endl;
-            }
 
-            cout << "answer : " << CalcResultMnist(resOutput) << endl;
+            return CalcResultMnist(resOutput);
         }
         BPNet::BPNet(vector<int> input)
         {

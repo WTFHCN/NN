@@ -7,8 +7,8 @@ using namespace std;
 
 DEFINE_int32(testNum, 0, "test num");
 DEFINE_int32(trainNum, 0, "train num");
-DEFINE_string(modelSavePath, "../model/BPTest", "modelSavePath");
-DEFINE_string(modelLoadPath, "../model/BPTest", "modelSavePath");
+DEFINE_string(modelSavePath, "model/BPTest", "modelSavePath");
+DEFINE_string(modelLoadPath, "model/BPTest", "modelSavePath");
 
 void prepareXorData(vector<HCN::Matrix<double>> &Input, vector<HCN::Matrix<double>> &Output)
 {
@@ -77,7 +77,7 @@ void BPwork()
     BPtest(test, FLAGS_testNum);
 
     test.Save(FLAGS_modelLoadPath);
-    test.TestImage("../1.txt");
+    cout << test.TestImage("1.txt") << endl;
 
     //test.test();
 }

@@ -6,16 +6,12 @@
 + glog
 + gflags
 ### Python
-+ torch
-+ torchvision
 + matplotlib
 + PIL
 + ctypes
 
 ## 下载数据
-```bash
-python download.py
-```
+手写数字官方自己下载
 ## 搭建
 ```bash
 mkdir build
@@ -33,4 +29,3 @@ cd ..
 ```bash
 python show.py
 ```
-
